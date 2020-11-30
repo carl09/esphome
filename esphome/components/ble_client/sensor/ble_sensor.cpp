@@ -27,6 +27,8 @@ void BLESensor::dump_config() {
 
 void BLESensor::gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if,
                                     esp_ble_gattc_cb_param_t *param) {
+  ESP_LOGW(TAG, "[%s] gattc_event_handler %i", this->get_name().c_str(), event);
+
   switch (event) {
     case ESP_GATTC_OPEN_EVT: {
       if (param->open.status == ESP_GATT_OK) {
@@ -117,10 +119,13 @@ void BLESensor::update() {
 
   auto status = esp_ble_gattc_read_char(this->parent_->gattc_if_, this->parent_->conn_id_, this->sensor_handle_,
                                         ESP_GATT_AUTH_REQ_NONE);
+
   if (status) {
     this->status_set_warning();
     this->publish_state(NAN);
     ESP_LOGW(TAG, "[%s] Error sending read request for sensor, status=%d", this->get_name().c_str(), status);
+  } else {
+    ESP_LOGW(TAG, "[%s] Got status update, status=%d", this->get_name().c_str(), status);
   }
 }
 
