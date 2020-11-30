@@ -202,6 +202,8 @@ void BLEClient::gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t ga
 // Parse GATT values into a float for a sensor.
 // Ref: https://www.bluetooth.com/specifications/assigned-numbers/format-types/
 float BLEClient::parse_char_value(uint8_t *value, uint16_t length) {
+
+  ESP_LOGW(TAG, "Reviced Value for 0x%x - %i", value[0], length);
   // A length of one means a single octet value.
   if (length == 0)
     return 0;
