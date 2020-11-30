@@ -86,7 +86,8 @@ void BLESensor::gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t ga
       }
       if (param->read.handle == this->sensor_handle_) {
         this->status_clear_warning();
-        this->publish_state((float) param->read.value[0]);
+        this->publish_state(this->parent_->parse_char_value(param->read.value, param->read.value_len));
+        // this->publish_state((float) param->read.value[0]);
       }
       break;
     }
