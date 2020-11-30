@@ -8,6 +8,8 @@
 namespace esphome {
 namespace ble_client {
 
+static const char *TAG = "ble_sensor_notify";
+
 class BLESensorNotifyTrigger : public Trigger<float>, public BLESensor {
  public:
   explicit BLESensorNotifyTrigger(BLESensor *sensor) { sensor_ = sensor; }
